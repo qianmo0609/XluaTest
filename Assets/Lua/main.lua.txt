@@ -1,0 +1,40 @@
+hp = 100
+isPlay = false
+heroName = "Owen"
+
+playerInfo = {
+    id = 1001,
+    name = "Owen",
+    level = 100
+} 
+
+eventMsg = {
+    eventId = 101,
+    param = "aaaaaaaaaaa"
+}
+
+playerPosition = {
+   x = 10,
+   y = 0,
+   z = 10
+}
+
+function playerPosition:add(x0,y0,z0)
+       self.x = self.x + x0
+       self.y = self.y + y0
+       self.z = self.z + z0
+end
+
+function playerPosition:sub(x0,y0,z0)
+       self.x = self.x - x0
+       self.y = self.y - y0
+       self.z = self.z - z0
+end
+
+Item = {
+  10001,1002,content = 10000,20001,3300,
+}
+
+function test(a)
+    print(a)
+end
