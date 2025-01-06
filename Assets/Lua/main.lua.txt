@@ -38,3 +38,141 @@ Item = {
 function test(a)
     print(a)
 end
+
+--[[
+local newGameObj = CS.UnityEngine.GameObject("test")
+
+--print(CS.Test.GameCfg.url)
+--CS.Test.GameCfg.url = "zzzzzz"
+--print(CS.Test.GameCfg.url)
+
+--CS.Test.GameCfg.CalcValue()
+
+local actorObj = CS.Test.Actor()
+
+--actorObj:callAtk()
+--actorObj:callWalk()
+actorObj.callAtk(actorObj)
+actorObj.callWalk(actorObj)
+
+--actorObj:PrintActorInfo()
+
+actorObj.id = 1001
+actorObj.hp = 100
+actorObj.name = "wukong"
+actorObj.baseAtk = 500.6
+actorObj.baseDef = 800
+
+--actorObj:PrintActorInfo()
+print(actorObj.id)
+print(actorObj.hp)
+print(actorObj.name)
+print(actorObj.baseAtk)
+print(actorObj.baseDef)
+actorObj:PrintActorInfo()
+
+]]--
+
+
+--[[ 调用父类方法
+local playerObj = CS.Test.Player()
+
+playerObj.id = 1001
+playerObj.hp = 100
+playerObj.name = "wukong"
+playerObj.baseAtk = 500.6
+playerObj.baseDef = 800
+
+playerObj:PrintActorInfo()
+]]
+
+--[[ref、out
+local actorObj = CS.Test.Actor()
+local c,d = actorObj:Test2(10,1)
+print(c,d)
+]]
+
+--[[重载方法
+local actorObj = CS.Test.Actor()
+local c,d = actorObj:Test2(10,1)
+print(c,d)
+]]
+
+--[[操作符
+local player1 = CS.Test.Player()
+player1.Atk = 100
+local player2 = CS.Test.Player()
+player2.Atk = 210
+print((player1+player2))
+]]
+
+--[[扩展方法泛型
+local c1 = CS.Test.Actor()
+local c2 = CS.Test.Player()
+local c3 = CS.Test.Monster()
+
+c1.TestExtend()
+c2.TestExtend()
+c3.TestExtend()
+]]
+
+--[[参数默认值
+local p = CS.Test.Player()
+p:TestDefualtValue(2,"aaaaaaaa",false)
+p:TestDefualtValue(2,"aaaaaaaa")
+p:TestDefualtValue(2)
+]]
+
+--[[可变参数
+local p = CS.Test.Player()
+p:TestParam(10,"hp",false,{"ccc",1,2})
+p:TestParam(10,"hp",false)
+]]
+
+--[[枚举
+local m = CS.Test.Monster()
+print(m:getMonsterType(2))
+print(CS.MonsterType.__CastFrom(1))
+]]
+
+--[[获取类型
+print(typeof(CS.Test.Monster))
+]]
+
+--[[C#复杂类型和table的自动转换
+local m = CS.TestObj()
+m:test({a=10,c="ccccccc"})
+]]
+
+--[[ Cast 类型强转
+local m = CS.Test.Monster()
+--m:PrintActorInfo()
+cast(m, typeof(CS.Test.Monster))
+--m:PrintActorInfo()
+]]
+
+local function testD(content)
+   print("LUA TESTD...."..content)
+end
+
+
+--delegate (+,-)
+local p = CS.Test.Player()
+
+p.test2 = p.test2 + testD 
+p.test2("add")
+p.test2 = p.test2 - testD
+p.test2("remove")
+
+--[[ event
+local m = CS.Test.Monster()
+
+m:testEvent('+', testD)
+m:testEvent()
+m:testCALL("add");
+
+m:testCALL("remove")
+m:testEvent('-', testD)
+]]
+
+

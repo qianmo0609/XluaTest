@@ -37,6 +37,7 @@ namespace XLua
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.Pedding>(translator.PushXLuaTestPedding, translator.Get, translator.UpdateXLuaTestPedding);
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.MyStruct>(translator.PushXLuaTestMyStruct, translator.Get, translator.UpdateXLuaTestMyStruct);
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.PushAsTableStruct>(translator.PushXLuaTestPushAsTableStruct, translator.Get, translator.UpdateXLuaTestPushAsTableStruct);
+				translator.RegisterPushAndGetAndUpdate<MonsterType>(translator.PushMonsterType, translator.Get, translator.UpdateMonsterType);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.TestEnum>(translator.PushTutorialTestEnum, translator.Get, translator.UpdateTutorialTestEnum);
 				translator.RegisterPushAndGetAndUpdate<XLuaTest.MyEnum>(translator.PushXLuaTestMyEnum, translator.Get, translator.UpdateXLuaTestMyEnum);
 				translator.RegisterPushAndGetAndUpdate<Tutorial.DerivedClass.TestEnumInner>(translator.PushTutorialDerivedClassTestEnumInner, translator.Get, translator.UpdateTutorialDerivedClassTestEnumInner);
@@ -771,6 +772,90 @@ namespace XLua
             }
         }
         
+        int MonsterType_TypeID = -1;
+		int MonsterType_EnumRef = -1;
+        
+        public void PushMonsterType(RealStatePtr L, MonsterType val)
+        {
+            if (MonsterType_TypeID == -1)
+            {
+			    bool is_first;
+                MonsterType_TypeID = getTypeId(L, typeof(MonsterType), out is_first);
+				
+				if (MonsterType_EnumRef == -1)
+				{
+				    Utils.LoadCSTable(L, typeof(MonsterType));
+				    MonsterType_EnumRef = LuaAPI.luaL_ref(L, LuaIndexes.LUA_REGISTRYINDEX);
+				}
+				
+            }
+			
+			if (LuaAPI.xlua_tryget_cachedud(L, (int)val, MonsterType_EnumRef) == 1)
+            {
+			    return;
+			}
+			
+            IntPtr buff = LuaAPI.xlua_pushstruct(L, 4, MonsterType_TypeID);
+            if (!CopyByValue.Pack(buff, 0, (int)val))
+            {
+                throw new Exception("pack fail fail for MonsterType ,value="+val);
+            }
+			
+			LuaAPI.lua_getref(L, MonsterType_EnumRef);
+			LuaAPI.lua_pushvalue(L, -2);
+			LuaAPI.xlua_rawseti(L, -2, (int)val);
+			LuaAPI.lua_pop(L, 1);
+			
+        }
+		
+        public void Get(RealStatePtr L, int index, out MonsterType val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != MonsterType_TypeID)
+				{
+				    throw new Exception("invalid userdata for MonsterType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+				int e;
+                if (!CopyByValue.UnPack(buff, 0, out e))
+                {
+                    throw new Exception("unpack fail for MonsterType");
+                }
+				val = (MonsterType)e;
+                
+            }
+            else
+            {
+                val = (MonsterType)objectCasters.GetCaster(typeof(MonsterType))(L, index, null);
+            }
+        }
+		
+        public void UpdateMonsterType(RealStatePtr L, int index, MonsterType val)
+        {
+		    
+            if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != MonsterType_TypeID)
+				{
+				    throw new Exception("invalid userdata for MonsterType");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+                if (!CopyByValue.Pack(buff, 0,  (int)val))
+                {
+                    throw new Exception("pack fail for MonsterType ,value="+val);
+                }
+            }
+			
+            else
+            {
+                throw new Exception("try to update a data with lua type:" + LuaAPI.lua_type(L, index));
+            }
+        }
+        
         int TutorialTestEnum_TypeID = -1;
 		int TutorialTestEnum_EnumRef = -1;
         
@@ -1100,6 +1185,12 @@ namespace XLua
 				translator.PushXLuaTestPushAsTableStruct(L, array[index]);
 				return true;
 			}
+			else if (type == typeof(MonsterType[]))
+			{
+			    MonsterType[] array = obj as MonsterType[];
+				translator.PushMonsterType(L, array[index]);
+				return true;
+			}
 			else if (type == typeof(Tutorial.TestEnum[]))
 			{
 			    Tutorial.TestEnum[] array = obj as Tutorial.TestEnum[];
@@ -1187,6 +1278,12 @@ namespace XLua
 			else if (type == typeof(XLuaTest.PushAsTableStruct[]))
 			{
 			    XLuaTest.PushAsTableStruct[] array = obj as XLuaTest.PushAsTableStruct[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
+			else if (type == typeof(MonsterType[]))
+			{
+			    MonsterType[] array = obj as MonsterType[];
 				translator.Get(L, obj_idx, out array[array_idx]);
 				return true;
 			}

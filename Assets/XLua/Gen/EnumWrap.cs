@@ -16,6 +16,76 @@ namespace XLua.CSObjectWrap
 {
     using Utils = XLua.Utils;
     
+    public class MonsterTypeWrap
+    {
+		public static void __Register(RealStatePtr L)
+        {
+		    ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+		    Utils.BeginObjectRegister(typeof(MonsterType), L, translator, 0, 0, 0, 0);
+			Utils.EndObjectRegister(typeof(MonsterType), L, translator, null, null, null, null, null);
+			
+			Utils.BeginClassRegister(typeof(MonsterType), L, null, 5, 0, 0);
+
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "None", MonsterType.None);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "Normal", MonsterType.Normal);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "melee", MonsterType.melee);
+            
+            Utils.RegisterObject(L, translator, Utils.CLS_IDX, "remote", MonsterType.remote);
+            
+
+			Utils.RegisterFunc(L, Utils.CLS_IDX, "__CastFrom", __CastFrom);
+            
+            Utils.EndClassRegister(typeof(MonsterType), L, translator);
+        }
+		
+		[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int __CastFrom(RealStatePtr L)
+		{
+			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			LuaTypes lua_type = LuaAPI.lua_type(L, 1);
+            if (lua_type == LuaTypes.LUA_TNUMBER)
+            {
+                translator.PushMonsterType(L, (MonsterType)LuaAPI.xlua_tointeger(L, 1));
+            }
+			
+            else if(lua_type == LuaTypes.LUA_TSTRING)
+            {
+
+			    if (LuaAPI.xlua_is_eq_str(L, 1, "None"))
+                {
+                    translator.PushMonsterType(L, MonsterType.None);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "Normal"))
+                {
+                    translator.PushMonsterType(L, MonsterType.Normal);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "melee"))
+                {
+                    translator.PushMonsterType(L, MonsterType.melee);
+                }
+				else if (LuaAPI.xlua_is_eq_str(L, 1, "remote"))
+                {
+                    translator.PushMonsterType(L, MonsterType.remote);
+                }
+				else
+                {
+                    return LuaAPI.luaL_error(L, "invalid string for MonsterType!");
+                }
+
+            }
+			
+            else
+            {
+                return LuaAPI.luaL_error(L, "invalid lua type for MonsterType! Expect number or string, got + " + lua_type);
+            }
+
+            return 1;
+		}
+	}
+    
     public class TutorialTestEnumWrap
     {
 		public static void __Register(RealStatePtr L)
