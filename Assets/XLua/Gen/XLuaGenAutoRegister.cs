@@ -28,7 +28,10 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(ActorExtendMethod), ActorExtendMethodWrap.__Register);
         
         
-            translator.DelayWrapLoader(typeof(TestObj), TestObjWrap.__Register);
+            translator.DelayWrapLoader(typeof(TestDontGen), TestDontGenWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(TestBlackList), TestBlackListWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(object), SystemObjectWrap.__Register);
@@ -171,13 +174,13 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(Test.GameCfg), TestGameCfgWrap.__Register);
         
-        
-            translator.DelayWrapLoader(typeof(Test.Actor), TestActorWrap.__Register);
-        
         }
         
         static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
         {
+        
+            translator.DelayWrapLoader(typeof(Test.Actor), TestActorWrap.__Register);
+        
         
             translator.DelayWrapLoader(typeof(Test.Player), TestPlayerWrap.__Register);
         
@@ -186,6 +189,9 @@ namespace XLua.CSObjectWrap
         
         
             translator.DelayWrapLoader(typeof(Tutorial.DerivedClass.TestEnumInner), TutorialDerivedClassTestEnumInnerWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(TestObj), TestObjWrap.__Register);
         
         
         
@@ -203,11 +209,11 @@ namespace XLua.CSObjectWrap
             
             translator.AddInterfaceBridgeCreator(typeof(XLuaTest.IExchanger), XLuaTestIExchangerBridge.__Create);
             
-            translator.AddInterfaceBridgeCreator(typeof(Test.IPlayerPosition), TestIPlayerPositionBridge.__Create);
-            
             translator.AddInterfaceBridgeCreator(typeof(Tutorial.CSCallLua.ItfD), TutorialCSCallLuaItfDBridge.__Create);
             
             translator.AddInterfaceBridgeCreator(typeof(XLuaTest.InvokeLua.ICalc), XLuaTestInvokeLuaICalcBridge.__Create);
+            
+            translator.AddInterfaceBridgeCreator(typeof(Test.IPlayerPosition), TestIPlayerPositionBridge.__Create);
             
         }
         

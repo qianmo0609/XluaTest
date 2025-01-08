@@ -16,9 +16,9 @@ namespace XLua
     public partial class ObjectTranslator
     {
         
-        class IniterAdderUnityEngineVector2
+        class IniterAdderTestGCOptimizeValue
         {
-            static IniterAdderUnityEngineVector2()
+            static IniterAdderTestGCOptimizeValue()
             {
                 LuaEnv.AddIniter(Init);
             }
@@ -26,6 +26,7 @@ namespace XLua
 			static void Init(LuaEnv luaenv, ObjectTranslator translator)
 			{
 			
+				translator.RegisterPushAndGetAndUpdate<TestGCOptimizeValue>(translator.PushTestGCOptimizeValue, translator.Get, translator.UpdateTestGCOptimizeValue);
 				translator.RegisterPushAndGetAndUpdate<UnityEngine.Vector2>(translator.PushUnityEngineVector2, translator.Get, translator.UpdateUnityEngineVector2);
 				translator.RegisterPushAndGetAndUpdate<UnityEngine.Vector3>(translator.PushUnityEngineVector3, translator.Get, translator.UpdateUnityEngineVector3);
 				translator.RegisterPushAndGetAndUpdate<UnityEngine.Vector4>(translator.PushUnityEngineVector4, translator.Get, translator.UpdateUnityEngineVector4);
@@ -45,9 +46,75 @@ namespace XLua
 			}
         }
         
-        static IniterAdderUnityEngineVector2 s_IniterAdderUnityEngineVector2_dumb_obj = new IniterAdderUnityEngineVector2();
-        static IniterAdderUnityEngineVector2 IniterAdderUnityEngineVector2_dumb_obj {get{return s_IniterAdderUnityEngineVector2_dumb_obj;}}
+        static IniterAdderTestGCOptimizeValue s_IniterAdderTestGCOptimizeValue_dumb_obj = new IniterAdderTestGCOptimizeValue();
+        static IniterAdderTestGCOptimizeValue IniterAdderTestGCOptimizeValue_dumb_obj {get{return s_IniterAdderTestGCOptimizeValue_dumb_obj;}}
         
+        
+        int TestGCOptimizeValue_TypeID = -1;
+        public void PushTestGCOptimizeValue(RealStatePtr L, TestGCOptimizeValue val)
+        {
+            if (TestGCOptimizeValue_TypeID == -1)
+            {
+			    bool is_first;
+                TestGCOptimizeValue_TypeID = getTypeId(L, typeof(TestGCOptimizeValue), out is_first);
+				
+            }
+			
+            IntPtr buff = LuaAPI.xlua_pushstruct(L, 8, TestGCOptimizeValue_TypeID);
+            if (!CopyByValue.Pack(buff, 0, val))
+            {
+                throw new Exception("pack fail fail for TestGCOptimizeValue ,value="+val);
+            }
+			
+        }
+		
+        public void Get(RealStatePtr L, int index, out TestGCOptimizeValue val)
+        {
+		    LuaTypes type = LuaAPI.lua_type(L, index);
+            if (type == LuaTypes.LUA_TUSERDATA )
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != TestGCOptimizeValue_TypeID)
+				{
+				    throw new Exception("invalid userdata for TestGCOptimizeValue");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);if (!CopyByValue.UnPack(buff, 0, out val))
+                {
+                    throw new Exception("unpack fail for TestGCOptimizeValue");
+                }
+            }
+			else if (type ==LuaTypes.LUA_TTABLE)
+			{
+			    CopyByValue.UnPack(this, L, index, out val);
+			}
+            else
+            {
+                val = (TestGCOptimizeValue)objectCasters.GetCaster(typeof(TestGCOptimizeValue))(L, index, null);
+            }
+        }
+		
+        public void UpdateTestGCOptimizeValue(RealStatePtr L, int index, TestGCOptimizeValue val)
+        {
+		    
+            if (LuaAPI.lua_type(L, index) == LuaTypes.LUA_TUSERDATA)
+            {
+			    if (LuaAPI.xlua_gettypeid(L, index) != TestGCOptimizeValue_TypeID)
+				{
+				    throw new Exception("invalid userdata for TestGCOptimizeValue");
+				}
+				
+                IntPtr buff = LuaAPI.lua_touserdata(L, index);
+                if (!CopyByValue.Pack(buff, 0,  val))
+                {
+                    throw new Exception("pack fail for TestGCOptimizeValue ,value="+val);
+                }
+            }
+			
+            else
+            {
+                throw new Exception("try to update a data with lua type:" + LuaAPI.lua_type(L, index));
+            }
+        }
         
         int UnityEngineVector2_TypeID = -1;
         public void PushUnityEngineVector2(RealStatePtr L, UnityEngine.Vector2 val)
@@ -1119,7 +1186,13 @@ namespace XLua
 	    internal static bool __tryArrayGet(Type type, RealStatePtr L, ObjectTranslator translator, object obj, int index)
 		{
 		
-			if (type == typeof(UnityEngine.Vector2[]))
+			if (type == typeof(TestGCOptimizeValue[]))
+			{
+			    TestGCOptimizeValue[] array = obj as TestGCOptimizeValue[];
+				translator.PushTestGCOptimizeValue(L, array[index]);
+				return true;
+			}
+			else if (type == typeof(UnityEngine.Vector2[]))
 			{
 			    UnityEngine.Vector2[] array = obj as UnityEngine.Vector2[];
 				translator.PushUnityEngineVector2(L, array[index]);
@@ -1215,7 +1288,13 @@ namespace XLua
 		internal static bool __tryArraySet(Type type, RealStatePtr L, ObjectTranslator translator, object obj, int array_idx, int obj_idx)
 		{
 		
-			if (type == typeof(UnityEngine.Vector2[]))
+			if (type == typeof(TestGCOptimizeValue[]))
+			{
+			    TestGCOptimizeValue[] array = obj as TestGCOptimizeValue[];
+				translator.Get(L, obj_idx, out array[array_idx]);
+				return true;
+			}
+			else if (type == typeof(UnityEngine.Vector2[]))
 			{
 			    UnityEngine.Vector2[] array = obj as UnityEngine.Vector2[];
 				translator.Get(L, obj_idx, out array[array_idx]);

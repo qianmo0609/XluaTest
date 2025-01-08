@@ -17,6 +17,62 @@ namespace XLua
     {
         
 		
+		public static void UnPack(ObjectTranslator translator, RealStatePtr L, int idx, out TestGCOptimizeValue val)
+		{
+		    val = new TestGCOptimizeValue();
+            int top = LuaAPI.lua_gettop(L);
+			
+			if (Utils.LoadField(L, idx, "a"))
+            {
+			    
+                translator.Get(L, top + 1, out val.a);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+			if (Utils.LoadField(L, idx, "b"))
+            {
+			    
+                translator.Get(L, top + 1, out val.b);
+				
+            }
+            LuaAPI.lua_pop(L, 1);
+			
+		}
+		
+        public static bool Pack(IntPtr buff, int offset, TestGCOptimizeValue field)
+        {
+            
+            if(!Pack(buff, offset, field.a))
+            {
+                return false;
+            }
+            
+            if(!Pack(buff, offset + 4, field.b))
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        public static bool UnPack(IntPtr buff, int offset, out TestGCOptimizeValue field)
+        {
+            field = default(TestGCOptimizeValue);
+            
+            if(!UnPack(buff, offset, out field.a))
+            {
+                return false;
+            }
+            
+            if(!UnPack(buff, offset + 4, out field.b))
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        
+		
 		public static void UnPack(ObjectTranslator translator, RealStatePtr L, int idx, out UnityEngine.Vector2 val)
 		{
 		    val = new UnityEngine.Vector2();

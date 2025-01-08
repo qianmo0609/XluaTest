@@ -68,7 +68,7 @@ public class Test : MonoBehaviour
         Debug.Log($"EventMsg:{msg.eventId},{msg.param}");
     }
 
-    [CSharpCallLua]
+    //[CSharpCallLua]
     public interface IPlayerPosition
     {
         int x { get; set; }
@@ -101,10 +101,10 @@ public class Test : MonoBehaviour
         Debug.Log(l.Count);
     }
 
-    [CSharpCallLua]
+    //[CSharpCallLua]
     public delegate void AddMethod(LuaTable self, int x, int y, int z);
 
-    [CSharpCallLua]
+    //[CSharpCallLua]
     public delegate Action addAc(LuaTable t, int x, int y, int z);
 
 
@@ -130,10 +130,10 @@ public class Test : MonoBehaviour
     }
 
 
-    [CSharpCallLua]
+    //[CSharpCallLua]
     public delegate void test1(int x);
 
-    [CSharpCallLua]
+    //[CSharpCallLua]
     public delegate Action test2(int x);
 
     public void GetLuaFuncDelegate()
@@ -383,6 +383,10 @@ public class Test : MonoBehaviour
     }
 
     #endregion
+
+    #region Hotfix
+
+    #endregion
 }
 
 [LuaCallCSharp]
@@ -414,7 +418,7 @@ public static class ActorExtendMethod
     }
 }
 
-[LuaCallCSharp]
+//[LuaCallCSharp]
 public class TestObj
 {
     public void test(testStruct t)
@@ -429,3 +433,34 @@ public struct testStruct
     public string c;
 }
 
+[ReflectionUse]
+public class TestReflectionUseObj
+{
+
+}
+
+
+[LuaCallCSharp]
+public class TestDontGen
+{
+    public int a1;
+    public int a2;
+
+    public void Test()
+    {
+
+    }
+}
+
+
+[LuaCallCSharp]
+public class TestBlackList
+{
+    public int a1;
+    public int a2;
+
+    public void Test()
+    {
+
+    }
+}

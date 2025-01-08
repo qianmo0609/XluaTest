@@ -156,13 +156,14 @@ local function testD(content)
 end
 
 
---delegate (+,-)
+--[[delegate (+,-)
 local p = CS.Test.Player()
 
 p.test2 = p.test2 + testD 
 p.test2("add")
 p.test2 = p.test2 - testD
 p.test2("remove")
+]]
 
 --[[ event
 local m = CS.Test.Monster()
@@ -174,5 +175,25 @@ m:testCALL("add");
 m:testCALL("remove")
 m:testEvent('-', testD)
 ]]
+
+--[[hotfix
+xlua.hotfix(CS.TestHotFix, 'TestPrint', function(self)
+    print('After HotFix')
+end)
+]]
+
+local util = require 'util'
+
+OnDestroy = function()
+    print("Lua onDestroy")
+    --xlua.hotfix(CS.TestHotFix, 'TestPrint', nil)
+    util.print_func_ref_by_csharp()
+end
+
+testAction = function(info)
+    
+end
+
+
 
 

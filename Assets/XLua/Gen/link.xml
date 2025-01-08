@@ -3,9 +3,11 @@
 <linker>
 
 	<assembly fullname="Assembly-CSharp">
-	    <type fullname="MonsterType" preserve="all"/>
+	    <type fullname="TestReflectionUseObj" preserve="all"/>
+		<type fullname="MonsterType" preserve="all"/>
 		<type fullname="ActorExtendMethod" preserve="all"/>
-		<type fullname="TestObj" preserve="all"/>
+		<type fullname="TestDontGen" preserve="all"/>
+		<type fullname="TestBlackList" preserve="all"/>
 		<type fullname="Tutorial.BaseClass" preserve="all"/>
 		<type fullname="Tutorial.TestEnum" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass" preserve="all"/>
@@ -28,6 +30,7 @@
 		<type fullname="Test+Player" preserve="all"/>
 		<type fullname="Test+Monster" preserve="all"/>
 		<type fullname="Tutorial.DerivedClass+TestEnumInner" preserve="all"/>
+		<type fullname="TestObj" preserve="all"/>
 		
 	</assembly>
 
