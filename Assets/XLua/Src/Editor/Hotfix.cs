@@ -154,7 +154,7 @@ namespace XLua
     }
 }
 #if XLUA_GENERAL
-
+/*
 namespace XLua
 {
     [Flags]
@@ -1585,6 +1585,7 @@ namespace XLua
         }
     }
 }
+*/
 #else
 
 namespace XLua

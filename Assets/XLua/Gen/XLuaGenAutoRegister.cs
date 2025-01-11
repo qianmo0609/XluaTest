@@ -22,6 +22,9 @@ namespace XLua.CSObjectWrap
         static void wrapInit0(LuaEnv luaenv, ObjectTranslator translator)
         {
         
+            translator.DelayWrapLoader(typeof(TestHotFixClass), TestHotFixClassWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(MonsterType), MonsterTypeWrap.__Register);
         
         
@@ -171,13 +174,13 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(XLuaTest.FooExtension), XLuaTestFooExtensionWrap.__Register);
         
-        
-            translator.DelayWrapLoader(typeof(Test.GameCfg), TestGameCfgWrap.__Register);
-        
         }
         
         static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
         {
+        
+            translator.DelayWrapLoader(typeof(Test.GameCfg), TestGameCfgWrap.__Register);
+        
         
             translator.DelayWrapLoader(typeof(Test.Actor), TestActorWrap.__Register);
         

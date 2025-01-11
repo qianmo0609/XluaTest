@@ -102,6 +102,7 @@ public class Test : MonoBehaviour
     }
 
     //[CSharpCallLua]
+    //[Hotfix(HotfixFlag.ValueTypeBoxing)]
     public delegate void AddMethod(LuaTable self, int x, int y, int z);
 
     //[CSharpCallLua]

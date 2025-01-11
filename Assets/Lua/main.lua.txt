@@ -185,15 +185,79 @@ end)
 local util = require 'util'
 
 OnDestroy = function()
-    print("Lua onDestroy")
+    --print("Lua onDestroy")
     --xlua.hotfix(CS.TestHotFix, 'TestPrint', nil)
-    util.print_func_ref_by_csharp()
+    --xlua.hotfix(CS.TestHotFixClass, '.ctor', nil)
+    --util.print_func_ref_by_csharp()
 end
 
+--[[
 testAction = function(info)
     
 end
+]]
 
+--[[.ctor
+xlua.hotfix(CS.TestHotFixClass, '.ctor' , function(self,p,c)
+        print("Lua .ctor",p,c,d)
+end)]]
+
+--[[prop
+xlua.hotfix(CS.TestHotFixClass, {  
+    set_TestProperty = function(self, v)
+        self.testProperty = v
+        print('Lua set_TestProperty', v)
+    end;
+    get_TestProperty = function(self)
+        print('Lua get_TestProperty')
+        return self.testProperty
+    end
+})]]
+
+--[[ []操作符
+xlua.hotfix(CS.TestHotFixClass, {  
+     get_Item = function(self, k)
+         print('get_Item', k)
+         return 1024
+     end;
+     set_Item = function(self, k, v)
+         print('set_Item', k, v)
+     end;
+})]]
+
+--[[事件
+xlua.hotfix(CS.TestHotFixClass, {  
+      ['.ctor'] = function(self)
+            util.state(self, {evt = {}})
+      end;
+      add_myEvent = function(self, cb)
+          print('add_Event', cb)
+          table.insert(self.evt, cb)
+      end;
+      remove_myEvent = function(self, cb)
+          print('remove_Event', cb)
+          for i, v in ipairs(self.evt) do
+             if v == cb then
+                table.remove(self.evt, i)
+             break
+             end
+         end
+     end;
+})]]
+
+--[[析构
+xlua.hotfix(CS.TestHotFixClass,"Finalize", function(self)
+     print('Finalize', self)
+end)]]
+
+--泛型
+xlua.hotfix(CS.TestGeneric(CS.System.Int32),".ctor", function(self)
+     print("LUA INT32")
+end)
+
+xlua.hotfix(CS.TestGeneric(CS.System.Single),".ctor", function(self)
+     print("LUA FLAOTG4")
+end)
 
 
 

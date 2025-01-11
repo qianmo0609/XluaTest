@@ -4,6 +4,7 @@
 
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="TestReflectionUseObj" preserve="all"/>
+		<type fullname="TestHotFixClass" preserve="all"/>
 		<type fullname="MonsterType" preserve="all"/>
 		<type fullname="ActorExtendMethod" preserve="all"/>
 		<type fullname="TestDontGen" preserve="all"/>

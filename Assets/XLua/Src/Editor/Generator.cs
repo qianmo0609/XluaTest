@@ -795,6 +795,8 @@ namespace CSObjectWrapEditor
             Type retTypeExpect = (hotfixMethod.IsConstructor ? typeof(void) : (hotfixMethod as MethodInfo).ReturnType);
             int hashCode = retTypeExpect.GetHashCode();
             List<ParameterInfoSimulation> paramsExpect = new List<ParameterInfoSimulation>();
+
+            //UnityEngine.Debug.Log($"{hotfixMethod},{hotfixType}");
             if (!hotfixMethod.IsStatic) // add self
             {
                 paramsExpect.Add(new ParameterInfoSimulation()
@@ -806,6 +808,7 @@ namespace CSObjectWrapEditor
                     IsParamArray = false
                 });
                 hashCode += paramsExpect[0].ParameterType.GetHashCode();
+                UnityEngine.Debug.Log($"hotfixMethod.DeclaringType{hotfixMethod.DeclaringType}");
             }
 
             foreach (var param in hotfixMethod.GetParameters())
@@ -817,8 +820,9 @@ namespace CSObjectWrapEditor
                     IsIn = param.IsIn,
                     ParameterType = (param.ParameterType.IsByRef || (param.ParameterType.IsValueType && !ignoreValueType)
                       || param.IsDefined(typeof(System.ParamArrayAttribute), false)) ? param.ParameterType : typeof(object),
-                    IsParamArray = param.IsDefined(typeof(System.ParamArrayAttribute), false)
+                    IsParamArray = param.IsDefined(typeof(System.ParamArrayAttribute), false),
                 };
+                UnityEngine.Debug.Log($"param.ParameterType{param.ParameterType}");
                 if (param.IsOut)
                 {
                     hashCode++;

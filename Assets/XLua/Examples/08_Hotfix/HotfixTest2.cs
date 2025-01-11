@@ -279,7 +279,7 @@ namespace XLuaTest
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();
             luaenv.DoString(@"
-            local util = require 'xlua.util'
+            local util = require 'xlua.util2'
             xlua.hotfix(CS.XLuaTest.StatefullTest, {
                 ['.ctor'] = function(csobj)
                     util.state(csobj, {evt = {}, start = 0, prop = 0})
