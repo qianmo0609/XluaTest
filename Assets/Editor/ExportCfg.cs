@@ -31,6 +31,7 @@ public static class ExportCfg
     public static List<Type> luaCallCsharp = new List<Type>
     {
         typeof(TestObj),
+        typeof(WaitForSeconds),
     };
 
     [CSharpCallLua]

@@ -225,7 +225,7 @@ xlua.hotfix(CS.TestHotFixClass, {
      end;
 })]]
 
---[[事件
+--事件
 xlua.hotfix(CS.TestHotFixClass, {  
       ['.ctor'] = function(self)
             util.state(self, {evt = {}})
@@ -243,21 +243,47 @@ xlua.hotfix(CS.TestHotFixClass, {
              end
          end
      end;
-})]]
+})
 
 --[[析构
 xlua.hotfix(CS.TestHotFixClass,"Finalize", function(self)
      print('Finalize', self)
 end)]]
 
---泛型
+--[[泛型
 xlua.hotfix(CS.TestGeneric(CS.System.Int32),".ctor", function(self)
      print("LUA INT32")
 end)
 
 xlua.hotfix(CS.TestGeneric(CS.System.Single),".ctor", function(self)
      print("LUA FLAOTG4")
-end)
+end)]]
+
+--[[Unity协程
+local gameobject = CS.UnityEngine.GameObject('CoroutineTest')
+CS.UnityEngine.Object.DontDestroyOnLoad(gameobject)
+local cs_coroutine_runner = gameobject:AddComponent(typeof(CS.HotFixCoroutine))
 
 
+local times = 5
+cs_coroutine_runner:StartCoroutine(util.cs_generator(function()
+    while (times > 0) do
+       print('coroutine aaaaa')
+	   coroutine.yield(CS.UnityEngine.WaitForSeconds(1))
+       times = times - 1
+    end
+end))]]
+
+
+--[[HotFix Unity协程
+xlua.hotfix(CS.HotFixCoroutine,{
+        CoroutineStart = function(self)
+            return util.cs_generator(function()
+                while true do
+                    coroutine.yield(CS.UnityEngine.WaitForSeconds(3))
+                    print('Wait for 3 seconds')
+                end
+            end)
+        end;
+})]]
 

@@ -27,7 +27,7 @@ public class HotFixTest : MonoBehaviour
     void Start()
     {
         TestHotFix testHotFix = new TestHotFix();
-        TestHotFixClass testHotFixClass = new TestHotFixClass();
+        //TestHotFixClass testHotFixClass = new TestHotFixClass();
         luaenv = new LuaEnv();
         luaenv.AddLoader(customLoader);
         //testHotFix.TestPrint();
@@ -39,16 +39,18 @@ public class HotFixTest : MonoBehaviour
         //System.GC.WaitForPendingFinalizers();
         //TestGeneric<int> testGeneric = new TestGeneric<int>();
         //TestGeneric<float> testGeneric1 = new TestGeneric<float>();
+        //new GameObject().AddComponent<HotFixCoroutine>();
         luaenv.DoString("require 'main'");
+        //new GameObject().AddComponent<HotFixCoroutine>();
         //TestGeneric<float> testGeneric3 = new TestGeneric<float>();
         //TestGeneric<double> testGeneric2 = new TestGeneric<double>();
         //TestHotFixClass testHotFixClass1 = new TestHotFixClass();
         //luaenv.FullGc();
         //System.GC.Collect();
         //System.GC.WaitForPendingFinalizers();
-        //TestHotFixClass testHotFixClass = new TestHotFixClass();
-        //testHotFixClass.myEvent += TestHotfixEvent;
-        //testHotFixClass.myEvent -= TestHotfixEvent;
+        TestHotFixClass testHotFixClass = new TestHotFixClass();
+        testHotFixClass.myEvent += TestHotfixEvent;
+        testHotFixClass.myEvent -= TestHotfixEvent;
 
         //Debug.Log(testHotFixClass[1]);
         //Debug.Log(testHotFixClass["cc"]);
@@ -179,4 +181,16 @@ public class TestGeneric<T>
     }
 
     public int testProperty {  get; set; }
+}
+[Hotfix]
+public class HotFixSubClass : MonoBehaviour
+{
+    IEnumerator Start()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(3);
+            Debug.Log("Wait for 3 seconds");
+        }
+    }
 }
