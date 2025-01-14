@@ -258,7 +258,7 @@ namespace XLua
 #endif
 		}
         
-		public System.Action __Gen_Delegate_Imp11(TestGCOptimizeValue p0, string p1, bool p2, int p3)
+		public System.Action __Gen_Delegate_Imp11(TestGCOptimizeValue[] p0, string p1, bool p2, int p3)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -267,7 +267,7 @@ namespace XLua
                 RealStatePtr L = luaEnv.rawL;
                 int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
                 ObjectTranslator translator = luaEnv.translator;
-                translator.PushTestGCOptimizeValue(L, p0);
+                translator.Push(L, p0);
                 LuaAPI.lua_pushstring(L, p1);
                 LuaAPI.lua_pushboolean(L, p2);
                 LuaAPI.xlua_pushinteger(L, p3);
@@ -890,7 +890,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp38(object p0, object p1, object p2)
+		public void __Gen_Delegate_Imp38(object p0, object p1, System.IntPtr p2)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -901,7 +901,7 @@ namespace XLua
                 ObjectTranslator translator = luaEnv.translator;
                 translator.PushAny(L, p0);
                 translator.PushAny(L, p1);
-                translator.PushAny(L, p2);
+                LuaAPI.lua_pushlightuserdata(L, p2);
                 
                 PCall(L, 3, 0, errFunc);
                 

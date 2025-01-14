@@ -206,10 +206,22 @@ namespace XLua.CSObjectWrap
                 TestHotFixClass gen_to_be_invoked = (TestHotFixClass)translator.FastGetCSObj(L, 1);
             
             
-                
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 1) 
                 {
                     
                     gen_to_be_invoked.EventCall(  );
+                    
+                    
+                    
+                    return 0;
+                }
+                if(gen_param_count == 2&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 2)) 
+                {
+                    int _a = LuaAPI.xlua_tointeger(L, 2);
+                    
+                    gen_to_be_invoked.EventCall( _a );
                     
                     
                     
@@ -219,6 +231,8 @@ namespace XLua.CSObjectWrap
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to TestHotFixClass.EventCall!");
             
         }
         

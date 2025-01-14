@@ -1,0 +1,19 @@
+return {
+    ["TestHotFixInkey"] = {
+        ["get_Item"] = {
+            0
+        },
+        ["set_Item"] = {
+            1
+        },
+        ["EventCall"] = {
+            2,3
+        },
+        ["test"] = {
+            4
+        },
+        [".ctor"] = {
+            5
+        },
+    },
+}

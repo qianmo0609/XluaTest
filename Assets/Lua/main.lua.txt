@@ -191,11 +191,11 @@ OnDestroy = function()
     --util.print_func_ref_by_csharp()
 end
 
---[[
+--
 testAction = function(info)
     
 end
-]]
+
 
 --[[.ctor
 xlua.hotfix(CS.TestHotFixClass, '.ctor' , function(self,p,c)
@@ -225,7 +225,7 @@ xlua.hotfix(CS.TestHotFixClass, {
      end;
 })]]
 
---事件
+--[[事件
 xlua.hotfix(CS.TestHotFixClass, {  
       ['.ctor'] = function(self)
             util.state(self, {evt = {}})
@@ -244,6 +244,16 @@ xlua.hotfix(CS.TestHotFixClass, {
          end
      end;
 })
+local csObj = CS.TestHotFixClass()
+
+local myEvent = function()
+     print("aaaaaaaaaa")
+end
+print(csObj.MyDelegate)
+--csObj:myEvent('+',myEvent);
+--csObj["&myEvent"]()
+]]
+
 
 --[[析构
 xlua.hotfix(CS.TestHotFixClass,"Finalize", function(self)
@@ -286,4 +296,32 @@ xlua.hotfix(CS.HotFixCoroutine,{
             end)
         end;
 })]]
+
+--[[其他操作符
+xlua.hotfix(CS.HotFixOtherOperator,"op_Addition",function(a,b)
+         print("Lua Op_add")
+         return 0
+    end)
+
+local ho1 = CS.HotFixOtherOperator()
+local ho2 = CS.HotFixOtherOperator()
+local a = ho1 + ho2
+]]
+
+--[[InKey
+local a = function(self)
+       print("Lua EventCall2")
+end
+
+--CS.XLua.HotfixDelegateBridge.Set(4, a)
+
+--local tik = CS.TestHotFixInkey()
+--tik:test()
+
+util.auto_id_map()
+xlua.hotfix(CS.TestHotFixInkey, 'test', a)
+
+local tik = CS.TestHotFixInkey()
+tik:test()
+]]
 

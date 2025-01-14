@@ -14,8 +14,13 @@ public class HotFixTest : MonoBehaviour
     Action onDestroy = null;
 
     [CSharpCallLua]
-    [Hotfix(HotfixFlag.ValueTypeBoxing)]
-    public delegate Action testAction(TestGCOptimizeValue x,string aaa,bool b,int d);
+    [Hotfix]
+    public delegate Action testAction(TestGCOptimizeValue[] x,string aaa,bool b,int d);
+
+    [GCOptimize]
+    TestGCOptimizeValue[,] a = new TestGCOptimizeValue[3, 4];
+    [GCOptimize]
+    TestGCOptimizeValue[] c = new TestGCOptimizeValue[4];
 
     testAction ta;
 
@@ -40,6 +45,9 @@ public class HotFixTest : MonoBehaviour
         //TestGeneric<int> testGeneric = new TestGeneric<int>();
         //TestGeneric<float> testGeneric1 = new TestGeneric<float>();
         //new GameObject().AddComponent<HotFixCoroutine>();
+        //HotFixOtherOperator ho1 = new HotFixOtherOperator();
+        //HotFixOtherOperator ho2 = new HotFixOtherOperator();
+        //int a = ho1 + ho2;
         luaenv.DoString("require 'main'");
         //new GameObject().AddComponent<HotFixCoroutine>();
         //TestGeneric<float> testGeneric3 = new TestGeneric<float>();
@@ -48,9 +56,9 @@ public class HotFixTest : MonoBehaviour
         //luaenv.FullGc();
         //System.GC.Collect();
         //System.GC.WaitForPendingFinalizers();
-        TestHotFixClass testHotFixClass = new TestHotFixClass();
-        testHotFixClass.myEvent += TestHotfixEvent;
-        testHotFixClass.myEvent -= TestHotfixEvent;
+        //TestHotFixClass testHotFixClass = new TestHotFixClass();
+        //testHotFixClass.myEvent += TestHotfixEvent;
+        //testHotFixClass.myEvent -= TestHotfixEvent;
 
         //Debug.Log(testHotFixClass[1]);
         //Debug.Log(testHotFixClass["cc"]);
@@ -126,7 +134,8 @@ public struct TestGCOptimizeValue
 [LuaCallCSharp]
 public class TestHotFixClass
 {
-    public TestHotFixClass(){
+    public TestHotFixClass()
+    {
         //Debug.Log("c# .ctor");
     }
 
@@ -137,31 +146,39 @@ public class TestHotFixClass
 
     private int testProperty;
 
-    public int TestProperty{ 
-        get {
+    public int TestProperty
+    {
+        get
+        {
             return testProperty;
-        } 
-        set {
+        }
+        set
+        {
             testProperty = value;
             Debug.Log($"c# set {testProperty}");
-        } 
+        }
     }
 
     public int this[string field]
     {
-        get{ return 1;}
-        set{}
+        get { return 1; }
+        set { }
     }
 
     public string this[int index]
     {
-        get{ return "aaabbbb";}
-        set{}
+        get { return "aaabbbb"; }
+        set { }
     }
 
     public void EventCall()
     {
+        Debug.Log("EventCall");
+    }
 
+    public void EventCall(int a)
+    {
+        Debug.Log("EventCall a");
     }
 
     public event Action myEvent;
@@ -172,7 +189,6 @@ public class TestHotFixClass
     }
 }
 
-[Hotfix(HotfixFlag.IgnoreProperty)]
 public class TestGeneric<T>
 {
     public TestGeneric()
@@ -192,5 +208,46 @@ public class HotFixSubClass : MonoBehaviour
             yield return new WaitForSeconds(3);
             Debug.Log("Wait for 3 seconds");
         }
+    }
+}
+
+[Hotfix]
+[LuaCallCSharp]
+public class HotFixOtherOperator
+{
+    public static int operator +(HotFixOtherOperator a, HotFixOtherOperator b)
+    {
+        Debug.Log("C# op_add");
+        return 0;
+    }
+}
+
+
+[Hotfix(HotfixFlag.IntKey)]
+public class TestHotFixInkey
+{
+    public int A;
+    public bool B; 
+    public string C;
+
+    public int this[string field]
+    {
+        get { return 1; }
+        set { }
+    }
+
+    public void EventCall()
+    {
+        Debug.Log("EventCall");
+    }
+
+    public void EventCall(int a)
+    {
+        Debug.Log("EventCall a");
+    }
+
+    public void test()
+    {
+        Debug.Log("cccccccccc");
     }
 }
